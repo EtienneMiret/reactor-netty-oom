@@ -36,7 +36,7 @@ public class Handler {
       socket.setSoLinger (true, 0);
       socket.getOutputStream ().write (buffer, 0, size % 1024);
       socket.close ();
-    } catch (IOException e) {
+    } catch (Exception e) {
       logger.error ("Error while handling request.", e);
     }
   }
