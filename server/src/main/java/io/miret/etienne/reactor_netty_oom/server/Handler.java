@@ -21,7 +21,7 @@ public class Handler {
   }
 
   public void run () {
-    try {
+    try (socket) {
       var writer = new OutputStreamWriter (socket.getOutputStream ());
       writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nContent-Length: 1048576\n\n");
       writer.flush ();
@@ -35,7 +35,6 @@ public class Handler {
       random.nextBytes (buffer);
       socket.setSoLinger (true, 0);
       socket.getOutputStream ().write (buffer, 0, size % 1024);
-      socket.close ();
     } catch (Exception e) {
       logger.error ("Error while handling request.", e);
     }
