@@ -1,0 +1,8 @@
+dependencies {
+  implementation 'org.apache.logging.log4j:log4j-api:2.13.3'
+  runtimeOnly 'org.apache.logging.log4j:log4j-core:2.13.3'
+}
+
+application {
+  mainClassName = 'io.miret.etienne.reactor_netty_oom.server.Main'
+}
