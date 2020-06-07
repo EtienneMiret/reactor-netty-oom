@@ -26,6 +26,7 @@ public class Handler {
       writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nContent-Length: 1048576\n\n");
       writer.flush ();
       int size = random.nextInt (1048576);
+      logger.info ("Request received. Sending up to {} bytes.", size);
       byte[] buffer = new byte[1024];
       for (int i = 0; i < size / 1024; i++) {
         random.nextBytes (buffer);
