@@ -1,11 +1,14 @@
 package io.miret.etienne.reactor_netty_oom.client;
 
 import io.netty.channel.ChannelOption;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
+
+import java.util.concurrent.TimeUnit;
 
 public class Client {
 
@@ -16,7 +19,8 @@ public class Client {
   public Client (String host, int port) {
     var tcpClient = TcpClient.create ()
         .host (host)
-        .port (port);
+        .port (port)
+        .doOnConnected (connection -> connection.addHandler (new ReadTimeoutHandler (5, TimeUnit.SECONDS)));
     this.nettyClient = HttpClient.from (tcpClient);
   }
 
