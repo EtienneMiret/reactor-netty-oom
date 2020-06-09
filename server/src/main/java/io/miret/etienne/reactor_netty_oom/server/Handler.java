@@ -14,6 +14,8 @@ public class Handler {
 
   private static final Logger logger = LogManager.getLogger (Handler.class);
 
+  private static final int SIZE_KB = 100;
+
   private final Socket socket;
 
   private final double errorProbability;
@@ -34,7 +36,7 @@ public class Handler {
         line = reader.readLine ();
       }
       var writer = new OutputStreamWriter (socket.getOutputStream ());
-      writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nConnection: close\nContent-Length: 1048576\n\n");
+      writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nConnection: close\nContent-Length: " + (SIZE_KB * 1024) + "\n\n");
       writer.flush ();
       if (random.nextDouble () < errorProbability) {
         sendIncomplete (firstLine);
@@ -49,14 +51,14 @@ public class Handler {
   private void sendComplete (String request) throws IOException {
     logger.info ("Request {} received. Sending all data.", request);
     byte[] buffer = new byte[1024];
-    for (int i = 0; i < 1024; i++) {
+    for (int i = 0; i < SIZE_KB; i++) {
       random.nextBytes (buffer);
       socket.getOutputStream ().write (buffer);
     }
   }
 
   private void sendIncomplete (String request) throws IOException {
-    int size = random.nextInt (1048576);
+    int size = random.nextInt (1024 * SIZE_KB);
     logger.info ("Request {} received. Sending up to {} bytes.", request, size);
     byte[] buffer = new byte[1024];
     for (int i = 0; i < size / 1024; i++) {
