@@ -3,7 +3,9 @@ package io.miret.etienne.reactor_netty_oom.server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Random;
@@ -22,8 +24,13 @@ public class Handler {
 
   public void run () {
     try (socket) {
+      var reader = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
+      var line = reader.readLine ();
+      while (!line.isEmpty ()) {
+        line = reader.readLine ();
+      }
       var writer = new OutputStreamWriter (socket.getOutputStream ());
-      writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nContent-Length: 1048576\n\n");
+      writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nConnection: close\nContent-Length: 1048576\n\n");
       writer.flush ();
       if (random.nextInt (128) == 0) {
         sendIncomplete ();
