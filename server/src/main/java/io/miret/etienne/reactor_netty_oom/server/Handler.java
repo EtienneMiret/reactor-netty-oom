@@ -33,7 +33,7 @@ public class Handler {
       var writer = new OutputStreamWriter (socket.getOutputStream ());
       writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nConnection: close\nContent-Length: 1048576\n\n");
       writer.flush ();
-      if (random.nextInt (128) == 0) {
+      if (random.nextInt (64) == 0) {
         sendIncomplete (firstLine);
       } else {
         sendComplete (firstLine);
