@@ -25,7 +25,8 @@ public class Handler {
   public void run () {
     try (socket) {
       var reader = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
-      var line = reader.readLine ();
+      var firstLine = reader.readLine ();
+      var line = firstLine;
       while (!line.isEmpty ()) {
         line = reader.readLine ();
       }
@@ -33,17 +34,17 @@ public class Handler {
       writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nConnection: close\nContent-Length: 1048576\n\n");
       writer.flush ();
       if (random.nextInt (128) == 0) {
-        sendIncomplete ();
+        sendIncomplete (firstLine);
       } else {
-        sendComplete ();
+        sendComplete (firstLine);
       }
     } catch (Exception e) {
       logger.error ("Error while handling request.", e);
     }
   }
 
-  private void sendComplete () throws IOException {
-    logger.info ("Request received. Sending all data.");
+  private void sendComplete (String request) throws IOException {
+    logger.info ("Request {} received. Sending all data.", request);
     byte[] buffer = new byte[1024];
     for (int i = 0; i < 1024; i++) {
       random.nextBytes (buffer);
@@ -51,9 +52,9 @@ public class Handler {
     }
   }
 
-  private void sendIncomplete () throws IOException {
+  private void sendIncomplete (String request) throws IOException {
     int size = random.nextInt (1048576);
-    logger.info ("Request received. Sending up to {} bytes.", size);
+    logger.info ("Request {} received. Sending up to {} bytes.", request, size);
     byte[] buffer = new byte[1024];
     for (int i = 0; i < size / 1024; i++) {
       random.nextBytes (buffer);
