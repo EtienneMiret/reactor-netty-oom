@@ -5,7 +5,7 @@ dependencies {
 }
 
 application {
-  mainClassName 'io.miret.etienne.reactor_netty_oom.client.Main'
+  mainClassName 'io.miret.etienne.reactor_netty_oom.reactor_netty_client.Main'
 }
 
 run {

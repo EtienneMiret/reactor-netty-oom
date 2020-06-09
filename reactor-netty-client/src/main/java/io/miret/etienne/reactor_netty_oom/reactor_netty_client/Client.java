@@ -1,6 +1,5 @@
-package io.miret.etienne.reactor_netty_oom.client;
+package io.miret.etienne.reactor_netty_oom.reactor_netty_client;
 
-import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

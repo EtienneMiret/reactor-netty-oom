@@ -1,3 +1,3 @@
 rootProject.name = 'reactor-netty-oom'
-include 'client'
+include 'reactor-netty-client'
 include 'server'

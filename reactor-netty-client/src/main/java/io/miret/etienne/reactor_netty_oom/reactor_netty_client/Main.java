@@ -1,4 +1,4 @@
-package io.miret.etienne.reactor_netty_oom.client;
+package io.miret.etienne.reactor_netty_oom.reactor_netty_client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
