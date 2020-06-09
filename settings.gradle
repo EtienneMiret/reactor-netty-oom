@@ -1,3 +1,4 @@
 rootProject.name = 'reactor-netty-oom'
 include 'reactor-netty-client'
+include 'spring-client'
 include 'server'
