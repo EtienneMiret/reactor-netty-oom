@@ -31,7 +31,7 @@ public class Main {
             .then ()
             .block ();
       } catch (Exception e) {
-        logger.error ("Error in flux: {}.", e.getMessage ());
+        logger.error ("{} in flux: {}.", e.getClass (), e.getMessage ());
       }
     }
   }
