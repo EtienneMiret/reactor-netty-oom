@@ -16,10 +16,13 @@ public class Handler {
 
   private final Socket socket;
 
+  private final double errorProbability;
+
   private final Random random = new Random ();
 
-  public Handler (Socket socket) {
+  public Handler (Socket socket, double errorProbability) {
     this.socket = socket;
+    this.errorProbability = errorProbability;
   }
 
   public void run () {
@@ -33,7 +36,7 @@ public class Handler {
       var writer = new OutputStreamWriter (socket.getOutputStream ());
       writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nConnection: close\nContent-Length: 1048576\n\n");
       writer.flush ();
-      if (random.nextInt (64) == 0) {
+      if (random.nextDouble () < errorProbability) {
         sendIncomplete (firstLine);
       } else {
         sendComplete (firstLine);
