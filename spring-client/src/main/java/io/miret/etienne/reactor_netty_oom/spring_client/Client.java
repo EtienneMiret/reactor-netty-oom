@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class Client {
@@ -32,6 +33,7 @@ public class Client {
     return webClient.get ()
         .uri ("/{index}", i)
         .exchange ()
+        .delayElement (Duration.ofMillis (200))
         .flatMap (response -> response.releaseBody ().thenReturn (i));
   }
 
