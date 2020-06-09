@@ -30,6 +30,7 @@ public class Client {
   public Mono<Integer> get (int i) {
     logger.info ("Getting {}.", i);
     return webClient.get ()
+        .uri ("/{index}", i)
         .exchange ()
         .flatMap (response -> response.releaseBody ().thenReturn (i))
         .onErrorResume (Exception.class, e -> {
