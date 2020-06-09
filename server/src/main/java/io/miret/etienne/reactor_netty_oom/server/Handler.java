@@ -30,7 +30,7 @@ public class Handler {
       var reader = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
       var firstLine = reader.readLine ();
       var line = firstLine;
-      while (!line.isEmpty ()) {
+      while (line != null && !line.isEmpty ()) {
         line = reader.readLine ();
       }
       var writer = new OutputStreamWriter (socket.getOutputStream ());
