@@ -32,11 +32,7 @@ public class Client {
     return webClient.get ()
         .uri ("/{index}", i)
         .exchange ()
-        .flatMap (response -> response.releaseBody ().thenReturn (i))
-        .onErrorResume (Exception.class, e -> {
-          logger.error ("Error on get {}: {}.", i, e.getMessage ());
-          return Mono.empty ();
-        });
+        .flatMap (response -> response.releaseBody ().thenReturn (i));
   }
 
 }
