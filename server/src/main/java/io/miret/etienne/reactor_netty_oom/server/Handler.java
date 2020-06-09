@@ -25,20 +25,37 @@ public class Handler {
       var writer = new OutputStreamWriter (socket.getOutputStream ());
       writer.write ("HTTP/1.1 200 OK\nContent-Type: application/octet-stream\nContent-Length: 1048576\n\n");
       writer.flush ();
-      int size = random.nextInt (1048576);
-      logger.info ("Request received. Sending up to {} bytes.", size);
-      byte[] buffer = new byte[1024];
-      for (int i = 0; i < size / 1024; i++) {
-        random.nextBytes (buffer);
-        socket.getOutputStream ().write (buffer);
+      if (random.nextInt (128) == 0) {
+        sendIncomplete ();
+      } else {
+        sendComplete ();
       }
-      random.nextBytes (buffer);
-      socket.setSoLinger (true, 0);
-      socket.getOutputStream ().write (buffer, 0, size % 1024);
-      socket.getOutputStream ().flush ();
     } catch (Exception e) {
       logger.error ("Error while handling request.", e);
     }
+  }
+
+  private void sendComplete () throws IOException {
+    logger.info ("Request received. Sending all data.");
+    byte[] buffer = new byte[1024];
+    for (int i = 0; i < 1024; i++) {
+      random.nextBytes (buffer);
+      socket.getOutputStream ().write (buffer);
+    }
+  }
+
+  private void sendIncomplete () throws IOException {
+    int size = random.nextInt (1048576);
+    logger.info ("Request received. Sending up to {} bytes.", size);
+    byte[] buffer = new byte[1024];
+    for (int i = 0; i < size / 1024; i++) {
+      random.nextBytes (buffer);
+      socket.getOutputStream ().write (buffer);
+    }
+    random.nextBytes (buffer);
+    socket.setSoLinger (true, 0);
+    socket.getOutputStream ().write (buffer, 0, size % 1024);
+    socket.getOutputStream ().flush ();
   }
 
 }
