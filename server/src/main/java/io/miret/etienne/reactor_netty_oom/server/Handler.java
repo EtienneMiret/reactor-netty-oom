@@ -35,6 +35,7 @@ public class Handler {
       random.nextBytes (buffer);
       socket.setSoLinger (true, 0);
       socket.getOutputStream ().write (buffer, 0, size % 1024);
+      socket.getOutputStream ().flush ();
     } catch (Exception e) {
       logger.error ("Error while handling request.", e);
     }
